@@ -19,14 +19,21 @@ where ProductID = (select ProductID from products
 where ProductName = 'sasquatch ale');
 
 -- What is the name of the employee that sold order 10266?-- 'Janet Leverling'
-select concat(e.firstname, ' ', e.lastname) as EmployeeName,OrderID
-from employees as e
-join orders as o 
-on e.EmployeeID = o.EmployeeID
-where OrderID = 10266;
+SELECT
+  (SELECT CONCAT(FirstName, ' ', LastName)
+   FROM Employees
+   WHERE EmployeeID = o.EmployeeID
+  ) AS EmployeeName,
+  o.OrderID
+FROM Orders AS o
+WHERE o.OrderID = 10266;
 
 -- What is the name of the customer that bought order 10266?-- 'Pirkko Koskitalo'
-select orderid ,contactname as CustomerName from orders as o
-join customers as c
-on o.CustomerID=c.CustomerID
-where OrderID = 10266;
+SELECT
+  (SELECT ContactName
+   FROM Customers
+   WHERE CustomerID = o.CustomerID
+  ) AS CustomerName,
+  o.OrderID
+FROM Orders AS o
+WHERE o.OrderID = 10266;
